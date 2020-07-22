@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Courier",
+    "slug": "courier",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "splash": {
+      "image": "./assets/splash.png"
+    },
+    "icon": "./assets/icon/icon.png",
+    "ios": {
+      "icon": "./assets/icon/icon.png"
+    },
+    "android": {
+      "icon": "./assets/icon/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon/foreground.png",
+        "backgroundImage": "./assets/icon/background.png"
+      }
+    }
+  }
+}
