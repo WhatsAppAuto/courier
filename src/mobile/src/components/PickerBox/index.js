@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Picker } from '@react-native-community/picker';
 
 import { PickerContainer, Line } from './styles';
 
-export default function PickerBox({ width = '100%', items }) {
+export default function PickerBox({
+  width = '100%',
+  items,
+  selectedItem,
+  onSelect,
+}) {
   const placeholderItem = { value: null, label: 'País' };
 
   items.unshift(placeholderItem);
-
-  const [selectedItem, setSelectedItem] = useState(placeholderItem);
 
   return (
     <>
       <PickerContainer
         width={width}
         selectedValue={selectedItem}
-        onValueChange={(item) => setSelectedItem(item)}
+        onValueChange={(item) => onSelect(item)}
       >
         {items.map((item) => (
           <Picker.Item

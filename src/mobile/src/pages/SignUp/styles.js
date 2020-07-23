@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Form as Unform } from '@unform/mobile';
 
 import { Regular, SemiBold, Bold } from '../../styles/fonts';
 import colors from '../../styles/colors';
@@ -27,6 +28,10 @@ export const PageSubtitle = styled(Regular)`
 
 export const FormContainer = styled.KeyboardAvoidingView`
   flex: 1;
+`;
+
+export const Form = styled(Unform)`
+  width: 100%;
 `;
 
 export const ControlsContainer = styled.View`

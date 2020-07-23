@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 import PickerBox from '../../components/PickerBox';
+import LineInput from '../../components/LineInput';
 
 import {
   Container,
   PageTitle,
   PageSubtitle,
   FormContainer,
+  Form,
   ControlsContainer,
   ControlLink,
 } from './styles';
 import colors from '../../styles/colors';
 
 export default function SignUp({ navigation }) {
+  const formRef = useRef(null);
+
   const [step, setStep] = useState(0);
   const [subtitle, setSubtitle] = useState('');
+  const [data, setData] = useState({});
+  const [selectedItem, setSelectedItem] = useState({}); // For Picker
 
   useEffect(() => {
     switch (step) {
@@ -42,7 +48,8 @@ export default function SignUp({ navigation }) {
   }, [step]);
 
   /**
-   * Controls step transitions for the form.
+   * Controls step transitions for the form. In the final step, it will submit
+   * the form.
    *
    * @param {String} direction  case 'back' return to step before; case
    *                            'forward' advances to next step
@@ -51,7 +58,10 @@ export default function SignUp({ navigation }) {
     if (direction === 'back') {
       if (step === 0) navigation.goBack();
       else setStep(step - 1);
-    } else if (step < 2) setStep(step + 1);
+    } else if (step < 2) {
+      setData({ ...data, ...formRef.current.getData() });
+      setStep(step + 1);
+    } else formRef.current.submitForm();
   }
 
   const pickerItems = [
@@ -59,6 +69,16 @@ export default function SignUp({ navigation }) {
     { value: 'es', label: 'Espanha' },
     { value: 'eua', label: 'Estados Unidos' },
   ];
+
+  async function handleSelection(item) {
+    setSelectedItem(item);
+
+    // TODO : fetch countries by an API
+  }
+
+  async function handleSubmit() {
+    console.log(data);
+  }
 
   return (
     <Container>
@@ -70,7 +90,18 @@ export default function SignUp({ navigation }) {
       </View>
 
       <FormContainer>
-        {step === 0 && <PickerBox items={pickerItems} />}
+        <Form ref={formRef} onSubmit={handleSubmit} initialData={data}>
+          {step === 0 && (
+            <>
+              <PickerBox
+                items={pickerItems}
+                selectedItem={selectedItem}
+                onSelect={handleSelection}
+              />
+              <LineInput name="teste" />
+            </>
+          )}
+        </Form>
       </FormContainer>
 
       <ControlsContainer>
